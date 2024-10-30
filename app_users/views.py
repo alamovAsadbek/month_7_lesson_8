@@ -12,3 +12,11 @@ def register_user(request):
         serializer = RegistrationSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def login_user(request):
+    if request.method == 'POST':
+        data = request.data
+        serializer = LoginSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
