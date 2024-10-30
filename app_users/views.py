@@ -13,5 +13,4 @@ def register_user(request):
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        # code to display registration form
         pass
