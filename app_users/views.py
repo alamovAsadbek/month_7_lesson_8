@@ -20,4 +20,6 @@ def login_user(request):
         data = request.data
         serializer = LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+        serializer.data.login_status = True
+        serializer.data.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
