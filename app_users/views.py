@@ -13,4 +13,4 @@ def register_user(request):
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        pass
+        return Response("Invalid request method", status=status.HTTP_400_BAD_REQUEST)
