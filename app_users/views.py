@@ -13,6 +13,7 @@ def register_user(request):
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 @api_view(['POST'])
 def login_user(request):
     if request.method == 'POST':
