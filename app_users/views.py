@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -20,9 +21,11 @@ def login_user_view(request):
         data = request.data
         serializer = LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.data.login_status = True
-        serializer.data.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if serializer.data.user:
+            token, created = Token.objects.get_or_create(user=serializer.data.user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -34,7 +37,7 @@ def get_user_view(request):
     if page is not None:
         page -= 1
         users = users[page * paginator:page * paginator + paginator]
-        
+
     if search_query is not None:
         users = users.filter(username__icontains=search_query)
 
