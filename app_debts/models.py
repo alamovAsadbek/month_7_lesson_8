@@ -4,7 +4,7 @@ from app_users.models import UserModel
 from common.models import BaseModel
 
 
-class DebtView(BaseModel):
+class DebtModel(BaseModel):
     DEBT_TYPE_CHOICES = [
         ('borrowed', 'Borrowed'),
         ('lent', 'Lent'),
