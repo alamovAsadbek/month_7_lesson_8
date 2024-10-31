@@ -10,3 +10,4 @@ class DebtView(BaseModel):
         ('lent', 'Lent'),
     ]
     user = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True)
+    debt_type = models.CharField(max_length=10, choices=DEBT_TYPE_CHOICES)
