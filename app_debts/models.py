@@ -14,3 +14,11 @@ class DebtView(BaseModel):
     status = models.CharField(max_length=10, choices=[('active', 'Active'), ('inactive', 'Inactive')])
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     due_date = models.DateField(format='%Y-%m-%d %H:%M')
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.phone_number} - {self.amount} - {self.due_date}"
+
+    class Meta:
+        verbose_name_plural = 'Debts'
+        verbose_name = 'Debt'
