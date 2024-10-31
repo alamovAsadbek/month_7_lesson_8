@@ -6,4 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['GET', 'POST'])
 @permission_required(IsAuthenticated)
 def debts_view(request):
-    pass
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        pass
