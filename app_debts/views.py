@@ -13,6 +13,10 @@ def debts_view(request):
         debts = DebtModel.objects.all(user=request.user)
         serializer = DebtSerializer(debts, many=True)
         return Response(serializer.data)
-
     elif request.method == 'POST':
-        pass
+        data = request.data
+        data['user'] = request.user.id
+        serializer = DebtSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "Debt added successfully"})
