@@ -10,7 +10,7 @@ from .serializer import *
 @permission_required(IsAuthenticated)
 def debts_view(request):
     if request.method == 'GET':
-        debts = DebtModel.objects.all(user=request.user)
+        debts = DebtModel.objects.all(user=request.user, status='active')
         page = request.query_params.get('page', 1)
         paginator = request.query_params.get('paginator', 10)
         search = request.query_params.get('search', None)
