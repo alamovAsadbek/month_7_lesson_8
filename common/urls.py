@@ -12,5 +12,6 @@ urlpatterns = [
     path('my-borrowed-debts/', get_my_borrowed_view, name='get_my_borrowed_view'),
     path('my-lent-debts/', get_my_lent_view, name='get_my_lent_view'),
     path('inactive-debts/', inactivate_debt_view, name='inactivate_debt_view'),
-    path('get-all-debts/', get_all_debts_view, name='get_all_debts_view')
+    path('get-all-debts/', get_all_debts_view, name='get_all_debts_view'),
+    path('get-debt/<int:pk>/', get_detailed_debt_view, name='get_detailed_debt_view')
 ]
