@@ -34,7 +34,7 @@ def get_user_view(request):
     if page is not None:
         page -= 1
         users = users[page * paginator:page * paginator + paginator]
-
+        
     if search_query is not None:
         users = users.filter(username__icontains=search_query)
 
