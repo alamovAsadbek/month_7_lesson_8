@@ -26,3 +26,13 @@ def debts_view(request):
 @permission_required(IsAuthenticated)
 def get_my_borrowed_view(request):
     debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed')
+    serializer = DebtSerializer(debts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_required(IsAuthenticated)
+def get_my_lent_view(request):
+    debts = DebtModel.objects.filter(user=request.user, debt_type='lent')
+    serializer = DebtSerializer(debts, many=True)
+    return Response(serializer.data)
