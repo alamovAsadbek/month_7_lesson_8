@@ -79,7 +79,23 @@ def get_my_lent_view(request):
 
 @api_view(['GET'])
 @permission_required(IsAuthenticated)
-def inactivate_debt_view(request, pk):
+def inactivate_debt_view(request):
+    if request.method == 'GET':
+        debts = DebtModel.objects.filter(user=request.user, status='inactive')
+        page = request.query_params.get('page', 1)
+        paginator = request.query_params.get('paginator', 10)
+        search = request.query_params.get('search', None)
+        if page is not None:
+            debts = debts[(int(page) - 1) * int(paginator):int(page) * int(paginator)]
+        if search is not None:
+            debts = debts.filter(description__icontains=search)
+        serializer = DebtSerializer(debts, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_required(IsAuthenticated)
+def change_debt_status_view(request, pk):
     if request.method == 'GET':
         debt = DebtModel.objects.get(id=pk)
         debt.status = False
