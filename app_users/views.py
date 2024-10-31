@@ -21,11 +21,9 @@ def login_user_view(request):
         data = request.data
         serializer = LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        if serializer.data.user:
-            token, created = Token.objects.get_or_create(user=serializer.data.user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
