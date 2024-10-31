@@ -42,6 +42,15 @@ def get_my_borrowed_view(request):
 @api_view(['GET'])
 @permission_required(IsAuthenticated)
 def get_my_lent_view(request):
-    debts = DebtModel.objects.filter(user=request.user, debt_type='lent')
-    serializer = DebtSerializer(debts, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        debts = DebtModel.objects.filter(user=request.user, debt_type='lent')
+        serializer = DebtSerializer(debts, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        data = request.data
+        data['user'] = request.user.id
+        data['debt_type'] = 'lent'
+        serializer = DebtSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "Debt added successfully"})
