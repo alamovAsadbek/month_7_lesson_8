@@ -57,7 +57,7 @@ def get_my_borrowed_view(request):
 @permission_required(IsAuthenticated)
 def get_my_lent_view(request):
     if request.method == 'GET':
-        debts = DebtModel.objects.filter(user=request.user, debt_type='lent')
+        debts = DebtModel.objects.filter(user=request.user, debt_type='lent', status='active')
         page = request.query_params.get('page', 1)
         paginator = request.query_params.get('paginator', 10)
         search = request.query_params.get('search', None)
