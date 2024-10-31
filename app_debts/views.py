@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from .serializer import *
@@ -85,3 +85,20 @@ def inactivate_debt_view(request, pk):
         debt.status = False
         debt.save()
         return Response({"message": "Debt inactivated successfully"})
+
+
+# for admin api views
+@api_view(['GET'])
+@permission_required(IsAdminUser)
+def get_all_debts_view(request):
+    if request.method == 'GET':
+        debts = DebtModel.objects.all()
+        page = request.query_params.get('page', 1)
+        paginator = request.query_params.get('paginator', 10)
+        search = request.query_params.get('search', None)
+        if page is not None:
+            debts = debts[(int(page) - 1) * int(paginator):int(page) * int(paginator)]
+        if search is not None:
+            debts = debts.filter(description__icontains=search)
+        serializer = DebtSerializer(debts, many=True)
+        return Response(serializer.data)
