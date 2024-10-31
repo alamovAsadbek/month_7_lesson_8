@@ -13,7 +13,7 @@ class DebtView(BaseModel):
     debt_type = models.CharField(max_length=10, choices=DEBT_TYPE_CHOICES)
     status = models.CharField(max_length=10, choices=[('active', 'Active'), ('inactive', 'Inactive')])
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    due_date = models.DateField(format='%Y-%m-%d %H:%M')
+    due_date = models.DateField()
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
