@@ -6,7 +6,7 @@ from .serializer import *
 
 
 @api_view(['POST'])
-def register_user(request):
+def register_user_view(request):
     if request.method == 'POST':
         data = request.data
         serializer = RegistrationSerializer(data=data)
@@ -15,7 +15,7 @@ def register_user(request):
 
 
 @api_view(['POST'])
-def login_user(request):
+def login_user_view(request):
     if request.method == 'POST':
         data = request.data
         serializer = LoginSerializer(data=data)
@@ -23,3 +23,8 @@ def login_user(request):
         serializer.data.login_status = True
         serializer.data.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_user_view(request):
+    pass
