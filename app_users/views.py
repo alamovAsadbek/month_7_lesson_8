@@ -40,7 +40,10 @@ def get_user_view(request):
         users = users[page * paginator:page * paginator + paginator]
 
     if search_query is not None:
-        users = users.filter(username__icontains=search_query)
+        if search_query.isdigit():
+            users = users.filter(phone_number__search=search_query)
+        else:
+            users = users.filter(username__icontains=search_query)
 
     serializer = UserModelSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
