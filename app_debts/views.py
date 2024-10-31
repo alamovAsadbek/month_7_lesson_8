@@ -58,6 +58,13 @@ def get_my_borrowed_view(request):
 def get_my_lent_view(request):
     if request.method == 'GET':
         debts = DebtModel.objects.filter(user=request.user, debt_type='lent')
+        page = request.query_params.get('page', 1)
+        paginator = request.query_params.get('paginator', 10)
+        search = request.query_params.get('search', None)
+        if page is not None:
+            debts = debts[(int(page) - 1) * int(paginator):int(page) * int(paginator)]
+        if search is not None:
+            debts = debts.filter(description__icontains=search)
         serializer = DebtSerializer(debts, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
