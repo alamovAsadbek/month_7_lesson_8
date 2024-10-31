@@ -20,3 +20,9 @@ def debts_view(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "Debt added successfully"})
+
+
+@api_view(['GET'])
+@permission_required(IsAuthenticated)
+def get_my_borrowed_view(request):
+    debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed')
