@@ -29,7 +29,14 @@ def login_user_view(request):
 def get_user_view(request):
     users = UserModel.objects.all()
     search_query = request.query_params.get('search', None)
+    page = int(request.query_params.get('page', 1))
+    paginator = int(request.query_params.get('paginator', 10))
+    if page is not None:
+        page -= 1
+        users = users[page * paginator:page * paginator + paginator]
+
     if search_query is not None:
         users = users.filter(username__icontains=search_query)
+
     serializer = UserModelSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
