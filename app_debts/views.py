@@ -102,3 +102,19 @@ def get_all_debts_view(request):
             debts = debts.filter(description__icontains=search)
         serializer = DebtSerializer(debts, many=True)
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_required(IsAdminUser)
+def get_detailed_debt_view(request, pk):
+    if request.method == 'GET':
+        debt = DebtModel.objects.get(id=pk)
+        page = request.query_params.get('page', 1)
+        paginator = request.query_params.get('paginator', 10)
+        search = request.query_params.get('search', None)
+        if page is not None:
+            debt = debt[(int(page) - 1) * int(paginator):int(page) * int(paginator)]
+        if search is not None:
+            debt = debt.filter(description__icontains=search)
+        serializer = DebtSerializer(debt)
+        return Response(serializer.data)
