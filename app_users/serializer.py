@@ -16,9 +16,9 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ['phone_number', 'password']
 
     def validate(self, data):
-        username = data.get('username')
+        phone_number = data.get('phone_number')
         password = data.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(phone_number=phone_number, password=password)
         if user is None:
             raise serializers.ValidationError("Invalid credentials")
         if not user.is_active:
