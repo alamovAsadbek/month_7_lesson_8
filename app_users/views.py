@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from .serializer import *
@@ -27,6 +28,7 @@ def login_user_view(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAdminUser])
 def get_user_view(request):
     users = UserModel.objects.all()
     search_query = request.query_params.get('search', None)
