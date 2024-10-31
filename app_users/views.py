@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from .models import *
 from .serializer import *
 
 
@@ -27,4 +27,5 @@ def login_user_view(request):
 
 @api_view(['GET'])
 def get_user_view(request):
-    pass
+    users = UserModel.objects.all()
+    serializer = UserSerializer(users, many=True)
