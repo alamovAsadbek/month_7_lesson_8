@@ -80,7 +80,8 @@ def get_my_lent_view(request):
 @api_view(['GET'])
 @permission_required(IsAuthenticated)
 def inactivate_debt_view(request, pk):
-    debt = DebtModel.objects.get(id=pk)
-    debt.status = False
-    debt.save()
-    return Response({"message": "Debt inactivated successfully"})
+    if request.method == 'GET':
+        debt = DebtModel.objects.get(id=pk)
+        debt.status = False
+        debt.save()
+        return Response({"message": "Debt inactivated successfully"})
