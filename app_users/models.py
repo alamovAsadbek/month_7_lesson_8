@@ -1,4 +1,4 @@
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 
@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
         return self.create_user(phone_number, password, **extra_fields)
 
 
-class UserModel(AbstractBaseUser):
+class UserModel(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -27,7 +27,7 @@ class UserModel(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []  # boshqa maydonlar kiritilishi mumkin
 
     class Meta:
         verbose_name = 'User'
@@ -36,10 +36,8 @@ class UserModel(AbstractBaseUser):
     def __str__(self):
         return self.phone_number
 
-    @staticmethod
     def has_perm(self, perm, obj=None):
         return True
 
-    @staticmethod
     def has_module_perms(self, app_label):
         return True
