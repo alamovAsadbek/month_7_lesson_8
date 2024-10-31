@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 
     # rest framework
     'rest_framework',
+    'rest_framework.authtoken',
 
     # local app
     'app_users',
