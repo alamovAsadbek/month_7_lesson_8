@@ -27,6 +27,7 @@ def login_user_view(request):
         return Response({'token': token.key}, status=status.HTTP_200_OK)
 
 
+# for admin
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def get_user_view(request):
