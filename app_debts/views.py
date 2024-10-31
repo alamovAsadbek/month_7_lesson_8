@@ -10,7 +10,7 @@ from .serializer import *
 @permission_required(IsAuthenticated)
 def debts_view(request):
     if request.method == 'GET':
-        debts = DebtModel.objects.all(user=request.user, debt_type='borrowed')
+        debts = DebtModel.objects.all(user=request.user)
         serializer = DebtSerializer(debts, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
