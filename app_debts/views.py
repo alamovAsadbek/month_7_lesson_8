@@ -22,12 +22,21 @@ def debts_view(request):
         return Response({"message": "Debt added successfully"})
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @permission_required(IsAuthenticated)
 def get_my_borrowed_view(request):
-    debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed')
-    serializer = DebtSerializer(debts, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed')
+        serializer = DebtSerializer(debts, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        data = request.data
+        data['user'] = request.user.id
+        data['debt_type'] = 'borrowed'
+        serializer = DebtSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "Debt added successfully"})
 
 
 @api_view(['GET'])
