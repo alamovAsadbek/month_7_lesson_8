@@ -47,3 +47,11 @@ def get_user_view(request):
 
     serializer = UserModelSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def get_user_by_id_view(request, pk):
+    user = UserModel.objects.get(id=pk)
+    serializer = UserModelSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
