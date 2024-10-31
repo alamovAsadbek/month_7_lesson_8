@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+
+@permission_required(IsAuthenticated)
+def create_debt_view(request):
+    pass
