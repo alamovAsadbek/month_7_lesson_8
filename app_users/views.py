@@ -28,4 +28,4 @@ def login_user_view(request):
 @api_view(['GET'])
 def get_user_view(request):
     users = UserModel.objects.all()
-    serializer = UserSerializer(users, many=True)
+    serializer = UserModelSerializer(users, many=True)

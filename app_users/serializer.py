@@ -24,3 +24,9 @@ class LoginSerializer(serializers.ModelSerializer):
         if not user.is_active:
             raise serializers.ValidationError("User is not active")
         return {"user": user}
+
+
+class UserModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = '__all__'
