@@ -33,7 +33,7 @@ def debts_view(request):
 @permission_required(IsAuthenticated)
 def get_my_borrowed_view(request):
     if request.method == 'GET':
-        debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed')
+        debts = DebtModel.objects.filter(user=request.user, debt_type='borrowed', status='active')
         page = request.query_params.get('page', 1)
         paginator = request.query_params.get('paginator', 10)
         search = request.query_params.get('search', None)
